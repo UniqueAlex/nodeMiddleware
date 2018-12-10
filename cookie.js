@@ -1,4 +1,4 @@
-//要求session格式为key, value的obj
+//set cookie
 exports.generateCookie = function(res, key, val, options) {
     var options = options || {};
     cookie = [key + '=' + val];
@@ -9,12 +9,13 @@ exports.generateCookie = function(res, key, val, options) {
     if(options.secure) cookie.push('Secure');
     if(options.httpOnly) cookie.push('HttpOnly');
     
-    //return cookie.join('; ');
     res.setHeader('Set-Cookie', cookie.join('; '));
 }
 //parse the cookie to a obj
 exports.parseCookie = function(req){
-    let cookie = req.headers.cookie;
+    if(req.headers.cookie){
+        let cookie = req.headers.cookie;
+    }   
     let parsedCookie = {}
     if(cookie){
         let cookieList = cookie.split(';');
@@ -28,12 +29,16 @@ exports.parseCookie = function(req){
 }
 //check the user if first send requset to backend
 exports.isFirstVist = function(req, res){
-    if(req.headers.cookie.isFirstVist){
-        return true;
-    }else{
-        exports.generateCookie(res, 'isFirstVist','1');
-        console.log('sssss');
-        return false;
+    console.log("run");
+    if(req.headers.cookie){
+        if(req.headers.cookie.isFirstVist){
+            return true;
+        }
     }
+    //if need to generate the cookie when the user visit the backend at first time
+    // else{
+    //     exports.generateCookie(res, 'isFirstVist','1');
+    //     return false;
+    // }
 }
 
