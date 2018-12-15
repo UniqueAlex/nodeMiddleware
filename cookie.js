@@ -1,5 +1,5 @@
 //set cookie
-exports.generateCookie = function(key, val, options) {
+function generateCookie(key, val, options){
     var options = options || {};
     cookie = [key + '=' + val];
     if(options.maxAge) cookie.push('maxAge=' + options.maxAge);
@@ -13,7 +13,7 @@ exports.generateCookie = function(key, val, options) {
     //res.setHeader('Set-Cookie', cookie.join('; '));
 }
 //parse the cookie to a obj
-exports.parseCookie = function(req){
+function parseCookie(req){
     let cookie;
     if(req.headers.cookie){
         cookie = req.headers.cookie;
@@ -30,16 +30,16 @@ exports.parseCookie = function(req){
     return parsedCookie;
 }
 //check the user if first send requset to backend
-exports.isFirstVist = function(req){
+function isFirstVist(req){
     if(req.headers.cookie){
         if(req.headers.cookie.isFirstVist){
             return true;
         }
     }
-    //if need to generate the cookie when the user visit the backend at first time
-    // else{
-    //     exports.generateCookie(res, 'isFirstVist','1');
-    //     return false;
-    // }
+
+}
+
+module.exports = {
+    generateCookie, parseCookie, isFirstVist
 }
 
